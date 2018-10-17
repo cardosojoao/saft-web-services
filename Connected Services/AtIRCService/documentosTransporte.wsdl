@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="https://servicos.portaldasfinancas.gov.pt/sgdtws/documentosTransporte/" xmlns="http://schemas.xmlsoap.org/wsdl/" name="documentosTransporte" targetNamespace="https://servicos.portaldasfinancas.gov.pt/sgdtws/documentosTransporte/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="https://servicos.portaldasfinancas.gov.pt/sgdtws/documentosTransporte/">
+      <xsd:element name="envioDocumentoTransporteRequestElem" type="tns:StockMovement" />
+      <xsd:element name="envioDocumentoTransporteResponseElem" type="tns:StockMovementResponse" />
+      <xsd:complexType name="StockMovement">
+        <xsd:annotation>
+          <xsd:documentation>Comunicação de um Documentos de Transporte pelo Cliente</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element name="TaxRegistrationNumber" type="tns:SAFPTPortugueseVatNumber" />
+          <xsd:element name="CompanyName" type="tns:SAFPTtextTypeMandatoryMax100Car" />
+          <xsd:element name="CompanyAddress" type="tns:AddressStructurePT" />
+          <xsd:element name="DocumentNumber" type="tns:SAFPTtextTypeMandatoryMax60Car" />
+          <xsd:element minOccurs="0" name="ATDocCodeID" type="tns:SAFPTtextTypeMandatoryMax200Car" />
+          <xsd:element name="MovementStatus" type="tns:MovementStatus" />
+          <xsd:element name="MovementDate" type="tns:SAFdateType" />
+          <xsd:element name="MovementType" type="tns:MovementType" />
+          <xsd:choice>
+            <xsd:element minOccurs="0" name="CustomerTaxID" type="tns:SAFPTtextTypeMandatoryMax20Car" />
+            <xsd:element minOccurs="0" name="SupplierTaxID" type="tns:SAFPTtextTypeMandatoryMax20Car" />
+          </xsd:choice>
+          <xsd:element minOccurs="0" name="CustomerAddress" type="tns:AddressStructurePT" />
+          <xsd:element minOccurs="0" name="CustomerName" type="tns:SAFPTtextTypeMandatoryMax100Car" />
+          <xsd:element minOccurs="0" name="AddressTo" type="tns:AddressStructurePT" />
+          <xsd:element name="AddressFrom" type="tns:AddressStructurePT" />
+          <xsd:element minOccurs="0" name="MovementEndTime" type="tns:SAFdateTimeType" />
+          <xsd:element name="MovementStartTime" type="tns:SAFdateTimeType" />
+          <xsd:element minOccurs="0" name="VehicleID" type="tns:SAFPTtextTypeMandatoryMax32Car" />
+          <xsd:element minOccurs="1" maxOccurs="unbounded" name="Line" type="tns:Line" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="StockMovementResponse">
+        <xsd:annotation>
+          <xsd:documentation>Resposta da AT ao envio do Documento de Transporte</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="unbounded" name="ResponseStatus" type="tns:ResponseStatus" />
+          <xsd:element minOccurs="0" name="DocumentNumber" type="tns:SAFPTtextTypeMandatoryMax60Car" />
+          <xsd:element minOccurs="0" name="ATDocCodeID" type="tns:SAFPTtextTypeMandatoryMax200Car" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ResponseStatus">
+        <xsd:sequence>
+          <xsd:element minOccurs="1" maxOccurs="1" name="ReturnCode" type="xsd:integer" />
+          <xsd:element minOccurs="0" name="ReturnMessage">
+            <xsd:simpleType>
+              <xsd:restriction base="xsd:string">
+                <xsd:maxLength value="256" />
+              </xsd:restriction>
+            </xsd:simpleType>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="Line">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="OrderReferences" type="tns:OrderReferences" />
+          <xsd:element name="ProductDescription" type="tns:SAFPTtextTypeMandatoryMax200Car" />
+          <xsd:element name="Quantity" type="tns:SAFdecimalType" />
+          <xsd:element name="UnitOfMeasure" type="tns:SAFPTtextTypeMandatoryMax20Car" />
+          <xsd:element name="UnitPrice" type="tns:SAFmonetaryType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="OrderReferences">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="OriginatingON" type="tns:SAFPTtextTypeMandatoryMax60Car" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="AddressStructurePT">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="Addressdetail" type="tns:SAFPTtextTypeMandatoryMax100Car" />
+          <xsd:element minOccurs="0" name="City" type="tns:SAFPTtextTypeMandatoryMax50Car" />
+          <xsd:element minOccurs="0" name="PostalCode" type="tns:PostalCodePT" />
+          <xsd:element minOccurs="0" fixed="PT" name="Country" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="MovementType">
+        <xsd:annotation>
+          <xsd:documentation>
+						Restrição:Tipos de Documento (GR-Guia de remessa, GT-Guia de transporte, GA-Guia de movimentação de ativos próprios,GC-Guia de consignação, GD-Guia ou nota de devolução afetuada pelo cliente.
+					</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="GR" />
+          <xsd:enumeration value="GT" />
+          <xsd:enumeration value="GA" />
+          <xsd:enumeration value="GC" />
+          <xsd:enumeration value="GD" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="SAFPTtextTypeMandatoryMax200Car">
+        <xsd:restriction base="xsd:string">
+          <xsd:minLength value="1" />
+          <xsd:maxLength value="200" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="SAFPTtextTypeMandatoryMax100Car">
+        <xsd:restriction base="xsd:string">
+          <xsd:minLength value="1" />
+          <xsd:maxLength value="100" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="SAFPTtextTypeMandatoryMax60Car">
+        <xsd:restriction base="xsd:string">
+          <xsd:minLength value="1" />
+          <xsd:maxLength value="60" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="SAFPTtextTypeMandatoryMax50Car">
+        <xsd:restriction base="xsd:string">
+          <xsd:minLength value="1" />
+          <xsd:maxLength value="50" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="SAFPTtextTypeMandatoryMax32Car">
+        <xsd:restriction base="xsd:string">
+          <xsd:minLength value="1" />
+          <xsd:maxLength value="32" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="SAFPTtextTypeMandatoryMax20Car">
+        <xsd:restriction base="xsd:string">
+          <xsd:minLength value="1" />
+          <xsd:maxLength value="20" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="SAFdateType">
+        <xsd:restriction base="xsd:date" />
+      </xsd:simpleType>
+      <xsd:simpleType name="SAFdecimalType">
+        <xsd:restriction base="xsd:decimal" />
+      </xsd:simpleType>
+      <xsd:simpleType name="SAFmonetaryType">
+        <xsd:restriction base="xsd:decimal" />
+      </xsd:simpleType>
+      <xsd:simpleType name="SAFPTPortugueseVatNumber">
+        <xsd:restriction base="xsd:integer">
+          <xsd:minInclusive value="100000000" />
+          <xsd:maxInclusive value="999999999" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="SAFdateTimeType">
+        <xsd:restriction base="xsd:dateTime" />
+      </xsd:simpleType>
+      <xsd:simpleType name="MovementStatus">
+        <xsd:annotation>
+          <xsd:documentation>N para Normal, T para Por conta de terceiros, A para Documento anulado</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="N" />
+          <xsd:enumeration value="T" />
+          <xsd:enumeration value="A" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="DocumentNumber">
+        <xsd:restriction base="xsd:string">
+          <xsd:pattern value="([a-zA-Z0-9./_\-])+ ([a-zA-Z0-9]*/[0-9]+)" />
+          <xsd:minLength value="1" />
+          <xsd:maxLength value="60" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="PostalCodePT">
+        <xsd:restriction base="xsd:string">
+          <xsd:pattern value="([0-9]{4}-[0-9]{3})" />
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="StockMovementRequest">
+    <wsdl:part name="StockMovement" element="tns:envioDocumentoTransporteRequestElem" />
+  </wsdl:message>
+  <wsdl:message name="StockMovementResponse">
+    <wsdl:part name="StockMovementResponse" element="tns:envioDocumentoTransporteResponseElem" />
+  </wsdl:message>
+  <wsdl:portType name="documentosTransporte">
+    <wsdl:operation name="envioDocumentoTransporte">
+      <wsdl:input message="tns:StockMovementRequest" />
+      <wsdl:output message="tns:StockMovementResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="documentosTransporteSOAP" type="tns:documentosTransporte">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="envioDocumentoTransporte">
+      <soap:operation soapAction="https://servicos.portaldasfinancas.gov.pt:701/sgdtws/documentosTransporte" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="documentosTransporte">
+    <wsdl:port name="documentosTransporteSOAP" binding="tns:documentosTransporteSOAP">
+      <soap:address location="https://servicos.portaldasfinancas.gov.pt:701/sgdtws/documentosTransporte" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

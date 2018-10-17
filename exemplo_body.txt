@@ -1,0 +1,45 @@
+<S:Body>
+<ns2:envioDocumentoTransporteRequestElem xmlns:ns2="https://servicos.portaldasfinancas.gov.pt/sgdtws/documentosTransporte/">
+<TaxRegistrationNumber>999999999</TaxRegistrationNumber>
+<CompanyName>Bla</CompanyName>
+<CompanyAddress>
+<Addressdetail>Morada Empresa</Addressdetail>
+<City>Cidade Empresa</City>
+<PostalCode>1000-100</PostalCode>
+<Country>PT</Country>
+</CompanyAddress>
+<DocumentNumber>11</DocumentNumber>
+<MovementStatus>N</MovementStatus>
+<MovementDate>2018-10-17Z</MovementDate>
+<MovementType>GR</MovementType>
+<CustomerTaxID>999999999</CustomerTaxID>
+<CustomerAddress>
+<Addressdetail>Morada Cliente</Addressdetail>
+<City>Cidade Cliente</City>
+<PostalCode>1000-100</PostalCode>
+<Country>PT</Country>
+</CustomerAddress>
+<AddressTo>
+<Addressdetail>Morada Descarga</Addressdetail>
+<City>Cidade Descarga</City>
+<PostalCode>1000-100</PostalCode>
+<Country>PT</Country>
+</AddressTo>
+<AddressFrom>
+<Addressdetail>Morada Carga</Addressdetail>
+<City>Cidade Carga</City>
+<PostalCode>1000-100</PostalCode>
+<Country>PT</Country>
+</AddressFrom>
+<MovementEndTime>2018-11-17T16:14:34.903Z</MovementEndTime>
+<MovementStartTime>2018-11-17T15:14:34.903Z</MovementStartTime>
+<VehicleID>10-10-AA</VehicleID>
+<Line>
+<ProductDescription>Produto1</ProductDescription>
+<Quantity>1</Quantity>
+<UnitOfMeasure>KG</UnitOfMeasure>
+<UnitPrice>1.1</UnitPrice>
+</Line>
+</ns2:envioDocumentoTransporteRequestElem>
+</S:Body>
+</S:Envelope>
